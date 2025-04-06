@@ -1,9 +1,8 @@
-  {
+{
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
     "baseUrl": ".",
-    "typeRoots": ["./types", "./node_modules/@types"],
     "paths": {
       "@/*": [
         "./*"
@@ -14,13 +13,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    ".expo/types/expo-env.d.ts",
-    "app/_layout.tsx",
-    ".expo/types/nativewind-env.d.ts",
-    "types/**/*.d.ts",
-    "nativewind-env.d.ts",
     "expo-env.d.ts",
-    "**/*.d.ts"
-  ],
-    "exclude": ["node_modules"]
+    "app/_layout.tsx",
+    "nativewind-env.d.ts",
+    "types/**/*.d.ts"
+  ]
 }

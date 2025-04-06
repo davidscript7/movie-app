@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "MovieFlix",
-    "slug": "mobile_movie_app",
+    "name": "rn-movie-app",
+    "slug": "rn-movie-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
-    "scheme": "movies",
+    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -17,20 +17,22 @@
         "backgroundColor": "#ffffff"
       }
     },
-    "_internal": {
-      "projectRoot": "./",
-      "isDebug": false
-    },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/logo.png"
     },
     "plugins": [
-      ["nativewind/babel", {
-        "input": "./globals.css",
-        "configPath": "./tailwind.config.js"
-      }]
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/logo.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
