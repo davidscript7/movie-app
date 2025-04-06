@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 import useFetch from "@/services/useFetch";
 import { fetchMovies } from "@/services/api";
@@ -51,7 +51,7 @@ const Index = () => {
     // Calculate dynamic styles and layout based on screen size
     const isLargeScreen = width > 768;
     const paddingTop = Platform.OS === 'ios' ? insets.top + 10 : 20;
-    const numColumns = width < 640 ? 3 : width < 1024 ? 4 : 5;
+    const [numColumns, setNumColumns] = useState(2);
 
     const {
         data: trendingMovies,
@@ -76,6 +76,17 @@ const Index = () => {
 
     const isLoading = moviesLoading || trendingLoading || refreshing;
     const hasError = moviesError || trendingError;
+
+
+    useEffect(() => {
+        const calculateColumns = () => {
+            const itemWidth = 180; // Ancho deseado de cada ítem
+            const columns = Math.floor(width / itemWidth);
+            setNumColumns(columns > 1 ? columns : 2);
+        };
+
+        calculateColumns();
+    }, [width]);
 
     return (
         <View className="flex-1 bg-primary">
@@ -129,10 +140,12 @@ const Index = () => {
                                     Trending Movies
                                 </Text>
                                 <FlatList
+                                    key={`flatlist-${numColumns}`}
                                     horizontal
                                     showsHorizontalScrollIndicator={false}
                                     className="mb-4 mt-3"
                                     data={trendingMovies}
+                                    numColumns={numColumns}
                                     contentContainerStyle={{
                                         gap: isLargeScreen ? 32 : 26,
                                         paddingRight: 20, // Give breathing room at the end
@@ -142,6 +155,8 @@ const Index = () => {
                                     )}
                                     keyExtractor={(item) => item.movie_id.toString()}
                                     ItemSeparatorComponent={() => <View className="w-4" />}
+                                    columnWrapperStyle={{ justifyContent: "space-between" }}
+                                    ListEmptyComponent={<Text>No movies</Text>}
                                 />
                             </View>
                         )}
@@ -153,6 +168,7 @@ const Index = () => {
                                 </Text>
 
                                 <FlatList
+                                    key={`flatlist-${numColumns}`}
                                     data={movies}
                                     renderItem={({ item }) => <MovieCard {...item} />}
                                     keyExtractor={(item) => item.id.toString()}

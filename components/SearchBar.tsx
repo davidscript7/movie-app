@@ -52,7 +52,6 @@ const SearchBar = ({
                         value={value}
                         className="flex-1 ml-2 text-white"
                         placeholderTextColor="#A8B5DB"
-                        pointerEvents="none"
                     />
                 </TouchableOpacity>
             ) : (

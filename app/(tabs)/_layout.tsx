@@ -54,10 +54,13 @@ export default function TabsLayout() {
                     height: "100%",
                     justifyContent: "center",
                     alignItems: "center",
+                    tabBarActiveTintColor: "#FFA500",
+                    headerShown: false,
                 },
                 tabBarStyle: {
                     backgroundColor: "#0F0D23",
                     borderRadius: 50,
+                    borderTopWidth: 0,
                     marginHorizontal: "auto",
                     marginBottom: tabBarMarginBottom,
                     height: 60,
@@ -68,6 +71,9 @@ export default function TabsLayout() {
                     width: tabBarWidth,
                     alignSelf: "center",
                 },
+                    tabBarLabelStyle: {
+                        fontSize: 12,
+                    },
                 // Add animations and transitions for better UX
                 headerShown: false,
                 animation: Platform.OS === 'web' ? 'none' : 'slide_from_right',

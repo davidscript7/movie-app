@@ -1,3 +1,5 @@
+
+
 export const TMDB_CONFIG = {
     BASE_URL: "https://api.themoviedb.org/3",
     API_KEY: process.env.EXPO_PUBLIC_MOVIE_API_KEY,
@@ -7,34 +9,34 @@ export const TMDB_CONFIG = {
     },
 };
 
-export const fetchMovies = async ({
-                                      query,
-                                  }: {
-    query: string;
-}): Promise<Movie[]> => {
-    const endpoint = query
-        ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-        : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
+export const fetchMovies = async ({ query }: { query: string }): Promise<Movie[]> => {
+    try {
+        const endpoint = query
+            ? `${TMDB_CONFIG.BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+            : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
-    const response = await fetch(endpoint, {
-        method: "GET",
-        headers: TMDB_CONFIG.headers,
-    });
+        const response = await fetch(endpoint, {
+            method: "GET",
+            headers: TMDB_CONFIG.headers,
+        });
 
-    if (!response.ok) {
-        throw new Error(`Failed to fetch movies: ${response.statusText}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching movies: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.results as Movie[]; // Asegurar tipado
+
+    } catch (error) {
+        console.error("Error in fetchMovies:", error);
+        throw new Error("Failed to fetch movies");
     }
-
-    const data = await response.json();
-    return data.results;
 };
 
-export const fetchMovieDetails = async (
-    movieId: string
-): Promise<MovieDetails> => {
+export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> => {
     try {
         const response = await fetch(
-            `${TMDB_CONFIG.BASE_URL}/movie/${movieId}?api_key=${TMDB_CONFIG.API_KEY}`,
+            `${TMDB_CONFIG.BASE_URL}/movie/${movieId}`, // Eliminado el api_key redundante
             {
                 method: "GET",
                 headers: TMDB_CONFIG.headers,
@@ -42,12 +44,14 @@ export const fetchMovieDetails = async (
         );
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch movie details: ${response.statusText}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return await response.json();
+        const data = await response.json();
+        return data as MovieDetails; // Asegurar tipado
+
     } catch (error) {
-        console.error("Error fetching movie details:", error);
-        throw error;
+        console.error("Error in fetchMovieDetails:", error);
+        throw new Error("Failed to fetch movie details");
     }
 };
