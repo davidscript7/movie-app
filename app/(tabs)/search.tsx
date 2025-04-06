@@ -72,6 +72,7 @@ const Search = () => {
             />
 
             <FlatList
+                key={`flatlist-${numColumns}`}
                 className={`${isLargeScreen ? 'px-10' : 'px-5'}`}
                 data={movies as Movie[]}
                 keyExtractor={(item) => item.id.toString()}
