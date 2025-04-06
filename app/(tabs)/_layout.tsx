@@ -4,6 +4,7 @@ import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { memo } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface TabIconProps {
     focused: boolean;
@@ -58,22 +59,14 @@ export default function TabsLayout() {
                     headerShown: false,
                 },
                 tabBarStyle: {
-                    backgroundColor: "#0F0D23",
-                    borderRadius: 50,
+                    backgroundColor: "#0A0A0A",
                     borderTopWidth: 0,
-                    marginHorizontal: "auto",
-                    marginBottom: tabBarMarginBottom,
-                    height: 60,
-                    position: "absolute",
-                    overflow: "hidden",
-                    borderWidth: 1,
-                    borderColor: "#0F0D23",
-                    width: tabBarWidth,
-                    alignSelf: "center",
                 },
-                    tabBarLabelStyle: {
-                        fontSize: 12,
-                    },
+                tabBarActiveTintColor: "#FFA500",
+                tabBarLabelStyle: {
+                    fontSize: 12,
+                    marginBottom: 2,
+                },
                 // Add animations and transitions for better UX
                 headerShown: false,
                 animation: Platform.OS === 'web' ? 'none' : 'slide_from_right',
@@ -83,9 +76,8 @@ export default function TabsLayout() {
                 name="index"
                 options={{
                     title: "Home",
-                    headerShown: false,
-                    tabBarIcon: ({ focused }: { focused: boolean }) => (
-                        <TabIcon focused={focused} icon={icons.home} title="Home" />
+                    tabBarIcon: ({ color }: { color: string }) => (
+                        <MaterialIcons name="home" size={24} color={color} />
                     ),
                 }}
             />

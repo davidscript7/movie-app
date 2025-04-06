@@ -48,7 +48,9 @@ const Details = () => {
         );
 
     return (
-        <View className="bg-primary flex-1">
+        <View className="bg-primary flex-1" style={{
+            paddingTop: Dimensions.get('window').height * 0.05
+        }}>
             <ScrollView
                 contentContainerStyle={{
                     paddingBottom: 100,
@@ -71,14 +73,14 @@ const Details = () => {
                     />
 
                     <LinearGradient
-                        colors={['transparent', 'rgba(10,10,10,0.7)', '#0A0A0A']}
-                        locations={[0.3, 0.6, 0.9]}
+                        colors={['transparent', 'rgba(10,10,10,0.9)', '#0A0A0A']}
+                        locations={[0.1, 0.4, 0.8]}
                         style={{
                             position: 'absolute',
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            height: screenHeight * 0.2,
+                            height: screenHeight * 0.3,
                         }}
                     >
                         <TouchableOpacity
