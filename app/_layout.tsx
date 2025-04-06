@@ -1,12 +1,22 @@
 import { Stack } from "expo-router";
 import "./globals.css";
-import { StatusBar } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "react-native";
 
 export default function RootLayout() {
+    const colorScheme = useColorScheme();
+
     return (
         <>
-            <StatusBar hidden={true} />
-            <Stack>
+            {/* Use StatusBar from expo-status-bar for better cross-platform support */}
+            <StatusBar style="light" />
+            <Stack
+                screenOptions={{
+                    headerShown: false,
+                    contentStyle: { backgroundColor: "#0F0D23" },
+                    animation: "slide_from_right",
+                }}
+            >
                 <Stack.Screen
                     name="(tabs)"
                     options={{
@@ -17,6 +27,7 @@ export default function RootLayout() {
                     name="movie/[id]"
                     options={{
                         headerShown: false,
+                        presentation: "modal", // Makes transitions more elegant
                     }}
                 />
             </Stack>

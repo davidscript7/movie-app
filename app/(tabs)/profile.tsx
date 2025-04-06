@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import {
     View,
     Text,
@@ -7,7 +7,8 @@ import {
     ScrollView,
     useWindowDimensions,
     Platform,
-    Switch
+    Switch,
+    Alert
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { icons } from "@/constants/icons";
@@ -21,18 +22,22 @@ interface SettingsItemProps {
     isToggle?: boolean;
 }
 
-const SettingsItem = ({
-                          icon,
-                          title,
-                          onPress,
-                          value,
-                          onValueChange,
-                          isToggle = false
-                      }: SettingsItemProps) => (
+// Memoize SettingsItem to prevent unnecessary re-renders
+const SettingsItem = memo(({
+                               icon,
+                               title,
+                               onPress,
+                               value,
+                               onValueChange,
+                               isToggle = false
+                           }: SettingsItemProps) => (
     <TouchableOpacity
         className="flex-row items-center py-4 border-b border-dark-100"
         onPress={onPress}
         disabled={isToggle}
+        accessibilityLabel={title}
+        accessibilityRole={isToggle ? "switch" : "button"}
+        accessibilityState={isToggle ? { checked: value } : {}}
     >
         <Image source={icon} className="size-6 mr-4" tintColor="#A8B5DB" />
         <Text className="text-white flex-1">{title}</Text>
@@ -48,7 +53,11 @@ const SettingsItem = ({
             <Image source={icons.arrow} className="size-4" tintColor="#A8B5DB" />
         )}
     </TouchableOpacity>
-);
+));
+
+// Add display name for debugging purposes
+SettingsItem.displayName = "SettingsItem";
+
 
 const Profile = () => {
     const { width } = useWindowDimensions();
@@ -61,6 +70,28 @@ const Profile = () => {
     // Calculate padding based on platform
     const paddingTop = Platform.OS === 'ios' ? insets.top : 20;
 
+    const handleItemPress = (title: string) => {
+        Alert.alert(title, `${title} will be available soon!`);
+    };
+
+    const handleLogout = () => {
+        Alert.alert(
+            "Log Out",
+            "Are you sure you want to log out?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Log Out",
+                    style: "destructive",
+                    onPress: () => console.log("User logged out")
+                }
+            ]
+        );
+    };
+
     return (
         <SafeAreaView className="bg-primary flex-1">
             <ScrollView
@@ -68,21 +99,6 @@ const Profile = () => {
                 contentContainerStyle={{ paddingTop: paddingTop }}
                 showsVerticalScrollIndicator={false}
             >
-                {/* Profile Header */}
-                <View className="items-center mb-8 pt-5">
-                    <View className="bg-dark-100 rounded-full p-5 mb-4">
-                        <Image source={icons.person} className="size-16" tintColor="#fff" />
-                    </View>
-                    <Text className="text-white text-xl font-bold">Guest User</Text>
-                    <Text className="text-gray-400 mt-1">guest@example.com</Text>
-
-                    <TouchableOpacity
-                        className="mt-4 bg-accent py-2 px-6 rounded-full"
-                        accessibilityLabel="Edit profile"
-                    >
-                        <Text className="text-white font-medium">Edit Profile</Text>
-                    </TouchableOpacity>
-                </View>
 
                 {/* Settings Section */}
                 <View className="mb-6">
@@ -91,13 +107,13 @@ const Profile = () => {
                     <SettingsItem
                         icon={icons.person}
                         title="Account Settings"
-                        onPress={() => {}}
+                        onPress={() => handleItemPress("Account Settings")}
                     />
 
                     <SettingsItem
                         icon={icons.save}
                         title="Saved Movies"
-                        onPress={() => {}}
+                        onPress={() => handleItemPress("Saved Movies")}
                     />
 
                     <SettingsItem
@@ -124,25 +140,26 @@ const Profile = () => {
                     <SettingsItem
                         icon={icons.person}
                         title="Help Center"
-                        onPress={() => {}}
+                        onPress={() => handleItemPress("Help Center")}
                     />
 
                     <SettingsItem
                         icon={icons.person}
                         title="Privacy Policy"
-                        onPress={() => {}}
+                        onPress={() => handleItemPress("Privacy Policy")}
                     />
 
                     <SettingsItem
                         icon={icons.person}
                         title="Terms of Service"
-                        onPress={() => {}}
+                        onPress={() => handleItemPress("Terms of Service")}
                     />
                 </View>
 
                 <TouchableOpacity
                     className="my-6 bg-dark-100 py-3 rounded-lg items-center"
                     accessibilityLabel="Log out"
+                    onPress={handleLogout}
                 >
                     <Text className="text-red-500 font-medium">Log Out</Text>
                 </TouchableOpacity>

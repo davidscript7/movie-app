@@ -7,9 +7,11 @@ import {
     FlatList,
     useWindowDimensions,
     Platform,
+    RefreshControl,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useState, useCallback } from "react";
 
 import useFetch from "@/services/useFetch";
 import { fetchMovies } from "@/services/api";
@@ -22,10 +24,29 @@ import SearchBar from "@/components/SearchBar";
 import MovieCard from "@/components/MovieCard";
 import TrendingCard from "@/components/TrendingCard";
 
+// Error message component to avoid repetition
+const ErrorMessage = ({ message }: { message?: string }) => (
+    <View className="bg-red-900/30 p-4 rounded-lg mt-6">
+        <Text className="text-red-400 text-center">
+            {message || "Something went wrong. Please try again."}
+        </Text>
+    </View>
+);
+
+// Header component to improve code organization
+const Header = ({ isLargeScreen }: { isLargeScreen: boolean }) => (
+    <Image
+        source={icons.logo}
+        className={`w-12 h-10 ${isLargeScreen ? 'mt-5' : 'mt-20'} mb-5 mx-auto`}
+        accessibilityLabel="App logo"
+    />
+);
+
 const Index = () => {
     const router = useRouter();
     const { width } = useWindowDimensions();
     const insets = useSafeAreaInsets();
+    const [refreshing, setRefreshing] = useState(false);
 
     // Calculate dynamic styles and layout based on screen size
     const isLargeScreen = width > 768;
@@ -36,19 +57,31 @@ const Index = () => {
         data: trendingMovies,
         loading: trendingLoading,
         error: trendingError,
+        refetch: refetchTrending,
     } = useFetch(getTrendingMovies);
 
     const {
         data: movies,
         loading: moviesLoading,
         error: moviesError,
+        refetch: refetchMovies,
     } = useFetch(() => fetchMovies({ query: "" }));
+
+    // Pull-to-refresh functionality
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        await Promise.all([refetchTrending(), refetchMovies()]);
+        setRefreshing(false);
+    }, [refetchTrending, refetchMovies]);
+
+    const isLoading = moviesLoading || trendingLoading || refreshing;
+    const hasError = moviesError || trendingError;
 
     return (
         <View className="flex-1 bg-primary">
             <Image
                 source={images.bg}
-                className="absolute w-full z-0"
+                className="absolute w-full h-full z-0"
                 resizeMode="cover"
             />
 
@@ -60,22 +93,27 @@ const Index = () => {
                     paddingTop: paddingTop,
                     paddingBottom: 100
                 }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        tintColor="#AB8BFF"
+                        colors={["#AB8BFF"]}
+                    />
+                }
             >
-                <Image
-                    source={icons.logo}
-                    className={`w-12 h-10 ${isLargeScreen ? 'mt-5' : 'mt-20'} mb-5 mx-auto`}
-                />
+                <Header isLargeScreen={isLargeScreen} />
 
-                {moviesLoading || trendingLoading ? (
+                {isLoading ? (
                     <ActivityIndicator
                         size="large"
                         color="#AB8BFF"
                         className="mt-10 self-center"
                     />
-                ) : moviesError || trendingError ? (
-                    <Text className="text-red-500 text-center mt-10">
-                        Error: {moviesError?.message || trendingError?.message}
-                    </Text>
+                ) : hasError ? (
+                    <ErrorMessage
+                        message={moviesError?.message || trendingError?.message}
+                    />
                 ) : (
                     <View className="flex-1 mt-5">
                         <SearchBar
@@ -97,6 +135,7 @@ const Index = () => {
                                     data={trendingMovies}
                                     contentContainerStyle={{
                                         gap: isLargeScreen ? 32 : 26,
+                                        paddingRight: 20, // Give breathing room at the end
                                     }}
                                     renderItem={({ item, index }) => (
                                         <TrendingCard movie={item} index={index} />

@@ -3,6 +3,7 @@ import { ImageBackground, Image, Text, View, Platform, useWindowDimensions } fro
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { memo } from "react";
 
 interface TabIconProps {
     focused: boolean;
@@ -10,7 +11,8 @@ interface TabIconProps {
     title: string;
 }
 
-function TabIcon({ focused, icon, title }: TabIconProps) {
+// Memoize TabIcon to prevent unnecessary re-renders
+const TabIcon = memo(({ focused, icon, title }: TabIconProps) => {
     if (focused) {
         return (
             <ImageBackground
@@ -29,7 +31,10 @@ function TabIcon({ focused, icon, title }: TabIconProps) {
             <Image source={icon} tintColor="#A8B5DB" className="size-5" />
         </View>
     );
-}
+});
+
+// Add display name for debugging purposes
+TabIcon.displayName = "TabIcon";
 
 export default function TabsLayout() {
     const insets = useSafeAreaInsets();
@@ -61,14 +66,17 @@ export default function TabsLayout() {
                     borderWidth: 1,
                     borderColor: "#0F0D23",
                     width: tabBarWidth,
-                    left: isLargeScreen ? "15%" : "5%",
+                    alignSelf: "center",
                 },
+                // Add animations and transitions for better UX
+                headerShown: false,
+                animation: Platform.OS === 'web' ? 'none' : 'slide_from_right',
             }}
         >
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: "index",
+                    title: "Home",
                     headerShown: false,
                     tabBarIcon: ({ focused }: { focused: boolean }) => (
                         <TabIcon focused={focused} icon={icons.home} title="Home" />
@@ -86,7 +94,7 @@ export default function TabsLayout() {
                 }}
             />
             <Tabs.Screen
-                name="save"
+                name="saved"
                 options={{
                     title: "Save",
                     headerShown: false,
