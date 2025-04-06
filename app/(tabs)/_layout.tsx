@@ -1,7 +1,8 @@
 import { Tabs } from "expo-router";
-import { ImageBackground, Image, Text, View } from "react-native";
+import { ImageBackground, Image, Text, View, Platform, useWindowDimensions } from "react-native";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface TabIconProps {
     focused: boolean;
@@ -31,6 +32,14 @@ function TabIcon({ focused, icon, title }: TabIconProps) {
 }
 
 export default function TabsLayout() {
+    const insets = useSafeAreaInsets();
+    const { width } = useWindowDimensions();
+
+    // Adjust tab bar position and style based on platform and screen width
+    const isLargeScreen = width > 768;
+    const tabBarMarginBottom = Platform.OS === 'ios' ? Math.max(20, insets.bottom) : 20;
+    const tabBarWidth = isLargeScreen ? "70%" : "90%";
+
     return (
         <Tabs
             screenOptions={{
@@ -44,13 +53,15 @@ export default function TabsLayout() {
                 tabBarStyle: {
                     backgroundColor: "#0F0D23",
                     borderRadius: 50,
-                    marginHorizontal: 20,
-                    marginBottom: 41,
+                    marginHorizontal: "auto",
+                    marginBottom: tabBarMarginBottom,
                     height: 60,
                     position: "absolute",
                     overflow: "hidden",
                     borderWidth: 1,
                     borderColor: "#0F0D23",
+                    width: tabBarWidth,
+                    left: isLargeScreen ? "15%" : "5%",
                 },
             }}
         >

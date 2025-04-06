@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, FlatList, Image } from "react-native";
+import {
+    View,
+    Text,
+    ActivityIndicator,
+    FlatList,
+    Image,
+    useWindowDimensions,
+    Platform,
+    TouchableOpacity
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 import { images } from "@/constants/images";
 import { icons } from "@/constants/icons";
@@ -9,10 +20,18 @@ import { fetchMovies } from "@/services/api";
 import { updateSearchCount } from "@/services/appwrite";
 
 import SearchBar from "@/components/SearchBar";
-import MovieDisplayCard from "@/components/MovieCard";
+import MovieCard from "@/components/MovieCard";
 
 const Search = () => {
     const [searchQuery, setSearchQuery] = useState("");
+    const { width } = useWindowDimensions();
+    const insets = useSafeAreaInsets();
+    const router = useRouter();
+
+    // Calculate dynamic styles and layout based on screen size
+    const isLargeScreen = width > 768;
+    const paddingTop = Platform.OS === 'ios' ? insets.top + 10 : 20;
+    const numColumns = width < 640 ? 3 : width < 1024 ? 4 : 5;
 
     const {
         data: movies = [],
@@ -53,20 +72,34 @@ const Search = () => {
             />
 
             <FlatList
-                className="px-5"
+                className={`${isLargeScreen ? 'px-10' : 'px-5'}`}
                 data={movies as Movie[]}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <MovieDisplayCard {...item} />}
-                numColumns={3}
+                renderItem={({ item }) => <MovieCard {...item} />}
+                numColumns={numColumns}
                 columnWrapperStyle={{
                     justifyContent: "flex-start",
-                    gap: 16,
+                    gap: isLargeScreen ? 24 : 16,
                     marginVertical: 16,
                 }}
-                contentContainerStyle={{ paddingBottom: 100 }}
+                contentContainerStyle={{
+                    paddingTop: paddingTop,
+                    paddingBottom: 100
+                }}
                 ListHeaderComponent={
                     <>
-                        <View className="w-full flex-row justify-center mt-20 items-center">
+                        <View className="w-full flex-row justify-center items-center mt-5">
+                            <TouchableOpacity
+                                onPress={() => router.back()}
+                                className="absolute left-0"
+                                accessibilityLabel="Go back"
+                            >
+                                <Image
+                                    source={icons.arrow}
+                                    className="size-5 rotate-180"
+                                    tintColor="#fff"
+                                />
+                            </TouchableOpacity>
                             <Image source={icons.logo} className="w-12 h-10" />
                         </View>
 
@@ -81,7 +114,7 @@ const Search = () => {
                         {loading && (
                             <ActivityIndicator
                                 size="large"
-                                color="#0000ff"
+                                color="#AB8BFF"
                                 className="my-3"
                             />
                         )}
@@ -96,7 +129,7 @@ const Search = () => {
                             !error &&
                             searchQuery.trim() &&
                             movies?.length! > 0 && (
-                                <Text className="text-xl text-white font-bold">
+                                <Text className={`${isLargeScreen ? 'text-2xl' : 'text-xl'} text-white font-bold mb-2`}>
                                     Search Results for{" "}
                                     <Text className="text-accent">{searchQuery}</Text>
                                 </Text>

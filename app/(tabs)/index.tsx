@@ -5,8 +5,11 @@ import {
     ScrollView,
     Image,
     FlatList,
+    useWindowDimensions,
+    Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import useFetch from "@/services/useFetch";
 import { fetchMovies } from "@/services/api";
@@ -21,6 +24,13 @@ import TrendingCard from "@/components/TrendingCard";
 
 const Index = () => {
     const router = useRouter();
+    const { width } = useWindowDimensions();
+    const insets = useSafeAreaInsets();
+
+    // Calculate dynamic styles and layout based on screen size
+    const isLargeScreen = width > 768;
+    const paddingTop = Platform.OS === 'ios' ? insets.top + 10 : 20;
+    const numColumns = width < 640 ? 3 : width < 1024 ? 4 : 5;
 
     const {
         data: trendingMovies,
@@ -43,20 +53,29 @@ const Index = () => {
             />
 
             <ScrollView
-                className="flex-1 px-5"
+                className={`flex-1 ${isLargeScreen ? 'px-10' : 'px-5'}`}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
+                contentContainerStyle={{
+                    minHeight: "100%",
+                    paddingTop: paddingTop,
+                    paddingBottom: 100
+                }}
             >
-                <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
+                <Image
+                    source={icons.logo}
+                    className={`w-12 h-10 ${isLargeScreen ? 'mt-5' : 'mt-20'} mb-5 mx-auto`}
+                />
 
                 {moviesLoading || trendingLoading ? (
                     <ActivityIndicator
                         size="large"
-                        color="#0000ff"
+                        color="#AB8BFF"
                         className="mt-10 self-center"
                     />
                 ) : moviesError || trendingError ? (
-                    <Text>Error: {moviesError?.message || trendingError?.message}</Text>
+                    <Text className="text-red-500 text-center mt-10">
+                        Error: {moviesError?.message || trendingError?.message}
+                    </Text>
                 ) : (
                     <View className="flex-1 mt-5">
                         <SearchBar
@@ -66,9 +85,9 @@ const Index = () => {
                             placeholder="Search for a movie"
                         />
 
-                        {trendingMovies && (
+                        {trendingMovies && trendingMovies.length > 0 && (
                             <View className="mt-10">
-                                <Text className="text-lg text-white font-bold mb-3">
+                                <Text className={`${isLargeScreen ? 'text-xl' : 'text-lg'} text-white font-bold mb-3`}>
                                     Trending Movies
                                 </Text>
                                 <FlatList
@@ -77,7 +96,7 @@ const Index = () => {
                                     className="mb-4 mt-3"
                                     data={trendingMovies}
                                     contentContainerStyle={{
-                                        gap: 26,
+                                        gap: isLargeScreen ? 32 : 26,
                                     }}
                                     renderItem={({ item, index }) => (
                                         <TrendingCard movie={item} index={index} />
@@ -88,26 +107,28 @@ const Index = () => {
                             </View>
                         )}
 
-                        <>
-                            <Text className="text-lg text-white font-bold mt-5 mb-3">
-                                Latest Movies
-                            </Text>
+                        {movies && movies.length > 0 && (
+                            <>
+                                <Text className={`${isLargeScreen ? 'text-xl' : 'text-lg'} text-white font-bold mt-5 mb-3`}>
+                                    Latest Movies
+                                </Text>
 
-                            <FlatList
-                                data={movies}
-                                renderItem={({ item }) => <MovieCard {...item} />}
-                                keyExtractor={(item) => item.id.toString()}
-                                numColumns={3}
-                                columnWrapperStyle={{
-                                    justifyContent: "flex-start",
-                                    gap: 20,
-                                    paddingRight: 5,
-                                    marginBottom: 10,
-                                }}
-                                className="mt-2 pb-32"
-                                scrollEnabled={false}
-                            />
-                        </>
+                                <FlatList
+                                    data={movies}
+                                    renderItem={({ item }) => <MovieCard {...item} />}
+                                    keyExtractor={(item) => item.id.toString()}
+                                    numColumns={numColumns}
+                                    columnWrapperStyle={{
+                                        justifyContent: "flex-start",
+                                        gap: isLargeScreen ? 24 : 20,
+                                        paddingRight: 5,
+                                        marginBottom: 10,
+                                    }}
+                                    className="mt-2 pb-32"
+                                    scrollEnabled={false}
+                                />
+                            </>
+                        )}
                     </View>
                 )}
             </ScrollView>
