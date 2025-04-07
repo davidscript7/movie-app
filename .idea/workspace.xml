@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="247ccccc-3509-4fa4-b5fc-9a1718438b68" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/(tabs)/movieContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(tabs)/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/types/errors.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/types/global.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/types/movies.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/types/tailwind-utils.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +92,7 @@
       <workItem from="1743979048388" duration="3581000" />
       <workItem from="1743984484646" duration="858000" />
       <workItem from="1743985564288" duration="29000" />
-      <workItem from="1743985625651" duration="10165000" />
+      <workItem from="1743985625651" duration="11822000" />
     </task>
     <servers />
   </component>
