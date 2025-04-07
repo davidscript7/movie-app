@@ -12,6 +12,8 @@ interface TabIconProps {
     title: string;
 }
 
+
+
 // Memoize TabIcon to prevent unnecessary re-renders
 const TabIcon = memo(({ focused, icon, title }: TabIconProps) => {
     if (focused) {
