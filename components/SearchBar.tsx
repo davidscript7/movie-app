@@ -1,5 +1,5 @@
 import { View, TextInput, Image, TouchableOpacity, Platform } from "react-native";
-import { icons } from "../../mobile_movie_app/constants/icons";
+import { icons } from "@/constants/icons";
 
 interface Props {
     placeholder: string;

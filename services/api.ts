@@ -52,6 +52,8 @@ export const fetchMovieDetails = async (movieId: string): Promise<MovieDetails> 
 
     } catch (error) {
         console.error("Error in fetchMovieDetails:", error);
-        throw new Error("Failed to fetch movie details");
+
+        // Relanzar el error original en lugar de crear uno nuevo
+        throw error;
     }
 };

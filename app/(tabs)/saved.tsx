@@ -1,4 +1,4 @@
-import { icons } from "../../../mobile_movie_app/constants/icons";
+import { icons } from "@/constants/icons";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
