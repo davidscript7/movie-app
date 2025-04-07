@@ -8,12 +8,12 @@ import play from "@/assets/icons/play.png";
 import arrow from "@/assets/icons/arrow.png";
 
 export const icons = {
-  home,
-  search,
-  person,
-  logo,
-  save,
-  star,
-  play,
-  arrow,
+    home,
+    search,
+    person,
+    logo,
+    save,
+    star,
+    play,
+    arrow,
 };

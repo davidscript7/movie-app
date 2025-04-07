@@ -1,7 +1,7 @@
 
 import { Stack, Tabs } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import "./globals.css";
+import "@/app/globals.css";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";

@@ -11,7 +11,7 @@ import {
     Alert
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { icons } from "@/constants/icons";
+import { icons } from "../../../mobile_movie_app/constants/icons";
 
 interface SettingsItemProps {
     icon: any;

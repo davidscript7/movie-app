@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { ImageBackground, Image, Text, View, Platform, useWindowDimensions } from "react-native";
-import { icons } from "@/constants/icons";
-import { images } from "@/constants/images";
+import { icons } from "../../../mobile_movie_app/constants/icons";
+import { images } from "../../../mobile_movie_app/constants/images";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { memo } from "react";
 import { MaterialIcons } from "@expo/vector-icons";

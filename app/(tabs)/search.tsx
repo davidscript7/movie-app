@@ -12,15 +12,15 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 
-import { images } from "@/constants/images";
-import { icons } from "@/constants/icons";
+import { images } from "../../../mobile_movie_app/constants/images";
+import { icons } from "../../../mobile_movie_app/constants/icons";
 
-import useFetch from "@/services/useFetch";
-import { fetchMovies } from "@/services/api";
-import { updateSearchCount } from "@/services/appwrite";
+import useFetch from "../../services/useFetch";
+import { fetchMovies } from "../../services/api";
+import { updateSearchCount } from "../../services/appwrite";
 
-import SearchBar from "@/components/SearchBar";
-import MovieCard from "@/components/MovieCard";
+import SearchBar from "../../components/SearchBar";
+import MovieCard from "../../components/MovieCard";
 
 const Search = () => {
     const [searchQuery, setSearchQuery] = useState("");

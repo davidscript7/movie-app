@@ -10,8 +10,8 @@ const MovieCard = ({ id, poster_path, title, vote_average, release_date }: Movie
     const imageHeight = width < 640 ? "h-44" : "h-52";
 
     return (
-        <Link href={`/movie/${id}`} asChild>
-            <TouchableOpacity className={`${cardWidth} mb-4`}>
+        <Link href={`/movie/${id}` as any} asChild>
+        <TouchableOpacity className={`${cardWidth} mb-4`}>
                 <Image
                     source={{
                         uri: poster_path
