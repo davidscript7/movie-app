@@ -1,156 +1,79 @@
-import { useState, useEffect } from "react";
-import {
-    View,
-    Text,
-    ActivityIndicator,
-    FlatList,
-    Image,
-    useWindowDimensions,
-    Platform,
-    TouchableOpacity
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
-
-import { images } from "@/constants/images";
+import { View, TextInput, Image, TouchableOpacity, Platform } from "react-native";
 import { icons } from "@/constants/icons";
+import { useLayout } from "@/types/layoutContext";
 
-import useFetch from "@/services/useFetch";
-import { fetchMovies } from "@/services/api";
-import { updateSearchCount } from "@/services/appwrite";
+interface Props {
+    placeholder: string;
+    value?: string;
+    onChangeText?: (text: string) => void;
+    onPress?: () => void;
+    disabled?: boolean;
+}
 
-import SearchBar from "@/components/SearchBar";
-import MovieCard from "@/components/MovieCard";
-
-const Search = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const { width } = useWindowDimensions();
-    const insets = useSafeAreaInsets();
-    const router = useRouter();
-
-    // Calculate dynamic styles and layout based on screen size
-    const isLargeScreen = width > 768;
-    const paddingTop = Platform.OS === 'ios' ? insets.top + 10 : 20;
-    const numColumns = width < 640 ? 3 : width < 1024 ? 4 : 5;
-
-    const {
-        data: movies = [],
-        loading,
-        error,
-        refetch: loadMovies,
-        reset,
-    } = useFetch(() => fetchMovies({ query: searchQuery }), false);
-
-    const handleSearch = (text: string) => {
-        setSearchQuery(text);
-    };
-
-    // Debounced search effect
-    useEffect(() => {
-        const timeoutId = setTimeout(async () => {
-            if (searchQuery.trim()) {
-                await loadMovies();
-
-                // Call updateSearchCount only if there are results
-                if (movies?.length! > 0 && movies?.[0]) {
-                    await updateSearchCount(searchQuery, movies[0]);
-                }
-            } else {
-                reset();
-            }
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-    }, [searchQuery]);
+const SearchBar = ({
+                       placeholder,
+                       value,
+                       onChangeText,
+                       onPress,
+                       disabled = false
+                   }: Props) => {
+    // We're not using useLayout here anymore to prevent the context error
+    // If we need layout information, we'll use props passed from parent
 
     return (
-        <View className="flex-1 bg-primary">
+        <View
+            className="flex-row items-center bg-dark-200 rounded-full px-5 py-3"
+            style={{
+                ...Platform.select({
+                    ios: {
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 3,
+                    },
+                    android: {
+                        elevation: 3,
+                    },
+                }),
+            }}
+        >
             <Image
-                source={images.bg}
-                className="flex-1 absolute w-full z-0"
+                source={icons.search}
+                className="w-5 h-5"
                 resizeMode="cover"
+                tintColor="#AB8BFF"
             />
 
-            <FlatList
-                key={`flatlist-${numColumns}`}
-                className={`${isLargeScreen ? 'px-10' : 'px-5'}`}
-                data={movies as Movie[]}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <MovieCard {...item} />}
-                numColumns={numColumns}
-                columnWrapperStyle={{
-                    justifyContent: "flex-start",
-                    gap: isLargeScreen ? 24 : 16,
-                    marginVertical: 16,
-                }}
-                contentContainerStyle={{
-                    paddingTop: paddingTop,
-                    paddingBottom: 100
-                }}
-                ListHeaderComponent={
-                    <>
-                        <View className="w-full flex-row justify-center items-center mt-5">
-                            <TouchableOpacity
-                                onPress={() => router.back()}
-                                className="absolute left-0"
-                                accessibilityLabel="Go back"
-                            >
-                                <Image
-                                    source={icons.arrow}
-                                    className="size-5 rotate-180"
-                                    tintColor="#fff"
-                                />
-                            </TouchableOpacity>
-                            <Image source={icons.logo} className="w-12 h-10" />
-                        </View>
-
-                        <View className="my-5">
-                            <SearchBar
-                                placeholder="Search for a movie"
-                                value={searchQuery}
-                                onChangeText={handleSearch}
-                            />
-                        </View>
-
-                        {loading && (
-                            <ActivityIndicator
-                                size="large"
-                                color="#AB8BFF"
-                                className="my-3"
-                            />
-                        )}
-
-                        {error && (
-                            <Text className="text-red-500 px-5 my-3">
-                                Error: {error.message}
-                            </Text>
-                        )}
-
-                        {!loading &&
-                            !error &&
-                            searchQuery.trim() &&
-                            movies?.length! > 0 && (
-                                <Text className={`${isLargeScreen ? 'text-2xl' : 'text-xl'} text-white font-bold mb-2`}>
-                                    Search Results for{" "}
-                                    <Text className="text-accent">{searchQuery}</Text>
-                                </Text>
-                            )}
-                    </>
-                }
-                ListEmptyComponent={
-                    !loading && !error ? (
-                        <View className="mt-10 px-5">
-                            <Text className="text-center text-gray-500">
-                                {searchQuery.trim()
-                                    ? "No movies found"
-                                    : "Start typing to search for movies"}
-                            </Text>
-                        </View>
-                    ) : null
-                }
+            <TextInput
+                placeholder={placeholder}
+                value={value}
+                onChangeText={onChangeText}
+                className="flex-1 ml-2 text-white h-8"
+                placeholderTextColor="#A8B5DB"
+                selectionColor="#AB8BFF"
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!disabled}
+                onSubmitEditing={onPress} // This triggers search on keyboard Enter/Submit
             />
+
+            {/* Add a search button */}
+            <TouchableOpacity
+                onPress={onPress}
+                disabled={disabled}
+                className="ml-2"
+            >
+                <View className="bg-accent rounded-full p-2">
+                    <Image
+                        source={icons.arrow || require('@/assets/icons/arrow.png')}
+                        className="w-4 h-4"
+                        resizeMode="contain"
+                        tintColor="#FFFFFF"
+                    />
+                </View>
+            </TouchableOpacity>
         </View>
     );
 };
 
-export default Search;
+export default SearchBar;

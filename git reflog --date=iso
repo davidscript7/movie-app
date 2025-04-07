@@ -1,0 +1,40 @@
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: checkout: moving from 6ee4eea7d013e5352bee0ddb07d296821d98bea4 to main
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: checkout: moving from main to head
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: checkout: moving from main to main
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{3}: checkout: moving from 6c984546fb8b18e5205aa8fa1490f335257cf080 to main
+[33m6c98454[m HEAD@{4}: checkout: moving from 119fca1ea4344fd6c6247a4d9300f27cd116e1f4 to 6c984546fb8b18e5205aa8fa1490f335257cf080
+[33m119fca1[m HEAD@{5}: commit: new features
+[33m6c98454[m HEAD@{6}: commit: new features
+[33m38c5279[m HEAD@{7}: commit: new features
+[33m95118bb[m HEAD@{8}: commit: new features
+[33mc99ef42[m HEAD@{9}: commit: responsive background
+[33m293d19b[m HEAD@{10}: checkout: moving from main to 293d19b05be0491f9de05ad9261af129093ca034
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{11}: checkout: moving from 57fe30559d1177608646ab008be567c729299c1e to main
+[33m57fe305[m HEAD@{12}: checkout: moving from df4b02c2e03d61fc540ee5ba45312bd882d7514e to 57fe30559d1177608646ab008be567c729299c1e
+[33mdf4b02c[m HEAD@{13}: checkout: moving from main to df4b02c2e03d61fc540ee5ba45312bd882d7514e
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{14}: checkout: moving from 57fe30559d1177608646ab008be567c729299c1e to main
+[33m57fe305[m HEAD@{15}: checkout: moving from main to 57fe30559d1177608646ab008be567c729299c1e
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{16}: checkout: moving from 293d19b05be0491f9de05ad9261af129093ca034 to main
+[33m293d19b[m HEAD@{17}: checkout: moving from main to 293d19b05be0491f9de05ad9261af129093ca034
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{18}: checkout: moving from 87661756e5b650df2ed0ed53f9ac001a4261a40a to main
+[33m8766175[m HEAD@{19}: checkout: moving from main to 87661756e5b650df2ed0ed53f9ac001a4261a40a
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{20}: checkout: moving from db82e7cfbacbaeb7c6ea254d9ad0baa975124d21 to main
+[33mdb82e7c[m HEAD@{21}: checkout: moving from main to db82e7cfbacbaeb7c6ea254d9ad0baa975124d21
+[33m6ee4eea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{22}: commit: cambios
+[33me08c470[m HEAD@{23}: commit: cambios
+[33mc97554e[m HEAD@{24}: commit: functions
+[33mcb97a56[m HEAD@{25}: commit: functions
+[33meadad9a[m HEAD@{26}: commit: fix
+[33m817b6e7[m HEAD@{27}: commit: bugs-1
+[33mdf4b02c[m HEAD@{28}: commit: bugs
+[33m57fe305[m HEAD@{29}: commit: fixes
+[33m293d19b[m HEAD@{30}: commit: design enhancements
+[33m8766175[m HEAD@{31}: commit: enhance
+[33mdb82e7c[m HEAD@{32}: pull: Merge made by the 'ort' strategy.
+[33md5be17a[m HEAD@{33}: commit: responsive
+[33meeeb60c[m HEAD@{34}: commit: Commit inicial
+[33m1130c9f[m HEAD@{35}: Branch: renamed refs/heads/main to refs/heads/main
+[33m1130c9f[m HEAD@{37}: commit: commit
+[33m1834b4c[m HEAD@{38}: Branch: renamed refs/heads/main to refs/heads/main
+[33m1834b4c[m HEAD@{40}: Branch: renamed refs/heads/master to refs/heads/main
+[33m1834b4c[m HEAD@{42}: commit (initial): Initial commit

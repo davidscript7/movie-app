@@ -1,5 +1,6 @@
 import { View, TextInput, Image, TouchableOpacity, Platform } from "react-native";
 import { icons } from "@/constants/icons";
+import { useLayout } from "@/types/layoutContext";
 
 interface Props {
     placeholder: string;
@@ -16,6 +17,9 @@ const SearchBar = ({
                        onPress,
                        disabled = false
                    }: Props) => {
+    // We're not using useLayout here anymore to prevent the context error
+    // If we need layout information, we'll use props passed from parent
+
     return (
         <View
             className="flex-row items-center bg-dark-200 rounded-full px-5 py-3"
@@ -36,36 +40,38 @@ const SearchBar = ({
             <Image
                 source={icons.search}
                 className="w-5 h-5"
-                resizeMode="contain"
+                resizeMode="cover"
                 tintColor="#AB8BFF"
             />
 
-            {disabled ? (
-                <TouchableOpacity
-                    onPress={onPress}
-                    activeOpacity={0.7}
-                    className="flex-1 h-8 justify-center"
-                >
-                    <TextInput
-                        editable={false}
-                        placeholder={placeholder}
-                        value={value}
-                        className="flex-1 ml-2 text-white"
-                        placeholderTextColor="#A8B5DB"
+            <TextInput
+                placeholder={placeholder}
+                value={value}
+                onChangeText={onChangeText}
+                className="flex-1 ml-2 text-white h-8"
+                placeholderTextColor="#A8B5DB"
+                selectionColor="#AB8BFF"
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!disabled}
+                onSubmitEditing={onPress} // This triggers search on keyboard Enter/Submit
+            />
+
+            {/* Add a search button */}
+            <TouchableOpacity
+                onPress={onPress}
+                disabled={disabled}
+                className="ml-2"
+            >
+                <View className="bg-accent rounded-full p-2">
+                    <Image
+                        source={icons.arrow || require('@/assets/icons/arrow.png')}
+                        className="w-4 h-4"
+                        resizeMode="contain"
+                        tintColor="#FFFFFF"
                     />
-                </TouchableOpacity>
-            ) : (
-                <TextInput
-                    placeholder={placeholder}
-                    value={value}
-                    onChangeText={onChangeText}
-                    className="flex-1 ml-2 text-white h-8"
-                    placeholderTextColor="#A8B5DB"
-                    selectionColor="#AB8BFF"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                />
-            )}
+                </View>
+            </TouchableOpacity>
         </View>
     );
 };
